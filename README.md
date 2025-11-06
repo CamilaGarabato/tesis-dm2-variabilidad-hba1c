@@ -1,2 +1,2 @@
-# Tesis-Variabilidad-de-la-HbA1c-y-su-asociaci-n-con-el-desarrollo-de-complicaciones-cr-nicas
+# tesis-DM2-variabilidad-hba1c
 Repositorio auxiliar del informe de tesis, para la visualización de gráficos interactivos
