@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Distribución de Pacientes - Tesis</title>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body>
+    <div id="grafico"></div>
+    
+    <script>
+        // TUS DATOS DIRECTAMENTE AQUÍ
+        var data = [{
+            type: "treemap",
+            labels: [
+                "Hospital Papa Francisco", "Nodo I", "Nodo II", "Nodo III", "Nodo IV",
+                "C.S. Nº 06 Bº EL MANJON", "C.S. Nº 61 Bº SOLIDARIDAD", "C.S. Nº 17 Bº SAN REMO"
+                // ... AGREGA TODOS TUS CENTROS AQUÍ
+            ],
+            parents: [
+                "", "Hospital Papa Francisco", "Hospital Papa Francisco", "Hospital Papa Francisco", "Hospital Papa Francisco",
+                "Nodo II", "Nodo II", "Nodo I"
+                // ... AGREGA LA JERARQUÍA AQUÍ
+            ],
+            values: [35, 52, 38, 40, 34, 19, 17, 15],
+            textinfo: "label+value"
+        }];
+
+        var layout = {
+            title: "Distribución de la Población de Estudio por Nodo y Centro de Salud",
+            width: 1200,
+            height: 800
+        };
+
+        Plotly.newPlot('grafico', data, layout);
+    </script>
+</body>
+</html>
