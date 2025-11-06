@@ -1,32 +1,78 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Distribución de Pacientes - Tesis</title>
+    <title>Distribución de Pacientes</title>
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        #grafico { margin: 0 auto; }
+    </style>
 </head>
 <body>
     <div id="grafico"></div>
-    
+
     <script>
-        // TUS DATOS DIRECTAMENTE AQUÍ
+        // TUS DATOS CONVERTIDOS A JAVASCRIPT
         var data = [{
             type: "treemap",
             labels: [
+                // NODOS PADRES
                 "Hospital Papa Francisco", "Nodo I", "Nodo II", "Nodo III", "Nodo IV",
-                "C.S. Nº 06 Bº EL MANJON", "C.S. Nº 61 Bº SOLIDARIDAD", "C.S. Nº 17 Bº SAN REMO"
-                // ... AGREGA TODOS TUS CENTROS AQUÍ
+                // CENTROS - Nodo II
+                "C.S. Nº 06 Bº EL MANJON", "C.S. Nº 61 Bº SOLIDARIDAD",
+                // CENTROS - Nodo I  
+                "C.S. Nº 17 Bº SAN REMO", "C.S. Nº 57 Bº SANTA ANA II", "C.S. Nº 27 Bº INTERSINDICAL",
+                "C.S. Nº 51 Bº LIMACHE", "C.S. Nº 48 Bº CEFERINO", "C.S. Nº 21 VILLA PALACIOS",
+                "C.S. Nº 64 LOS CRESPONES", "C.S. Nº 25 SAN LUIS", "C.S. Nº 16 Bº SANTA ANA I",
+                "C.S. Nº 45 Bº PROVIPO",
+                // CENTROS - Nodo III
+                "C.S. Nº 29 FCA. INDEPENDENCIA", "C.S. Nº 09 - Vª LAVALLE", "C.S. Nº 58 Vª MARIA ESTHER",
+                "C.S. Nº 52 Bº SANTA CECILIA", "C.S. Nº 46 Vª MOROSINI",
+                // CENTROS - Nodo II (continuación)
+                "C.S. Nº 07 Vª 20 DE JUNIO", "C.S. Nº 18 Vª CONSTITUCION", "C.S. Nº 60 Bº EL MIRADOR",
+                "C.S. Nº 62 Bº SANIDAD", "C.S. Nº 08 Bº EL TRIBUNO", "C.S. Nº 40 Bº 9 DE JULIO",
+                "C.S. Nº 38 LA ESMERALDA",
+                // CENTROS - Nodo IV
+                "C.S. Nº 54 Bº SAN IGNACIO", "C.S. Nº 42 Bº AUTODROMO", "C.S. Nº 37 LA ISLA",
+                "C.S. Nº 44 Bº FLORESTA"
             ],
             parents: [
+                // PADRES DE NODOS
                 "", "Hospital Papa Francisco", "Hospital Papa Francisco", "Hospital Papa Francisco", "Hospital Papa Francisco",
-                "Nodo II", "Nodo II", "Nodo I"
-                // ... AGREGA LA JERARQUÍA AQUÍ
+                // PADRES DE CENTROS - Nodo II
+                "Nodo II", "Nodo II",
+                // PADRES DE CENTROS - Nodo I
+                "Nodo I", "Nodo I", "Nodo I", "Nodo I", "Nodo I", "Nodo I", "Nodo I", "Nodo I", "Nodo I",
+                // PADRES DE CENTROS - Nodo III  
+                "Nodo III", "Nodo III", "Nodo III", "Nodo III", "Nodo III",
+                // PADRES DE CENTROS - Nodo II (continuación)
+                "Nodo II", "Nodo II", "Nodo II", "Nodo II", "Nodo II", "Nodo II", "Nodo II",
+                // PADRES DE CENTROS - Nodo IV
+                "Nodo IV", "Nodo IV", "Nodo IV", "Nodo IV"
             ],
-            values: [35, 52, 38, 40, 34, 19, 17, 15],
-            textinfo: "label+value"
+            values: [
+                // VALORES CORRESPONDIENTES
+                35, 52, 38, 40, 34,
+                19, 17, 15, 9, 7, 4, 4, 4, 4, 4, 3,
+                10, 9, 7, 6, 4,
+                6, 5, 3, 3, 3, 2, 2,
+                5, 1, 1, 1
+            ],
+            marker: {
+                colorscale: [
+                    [0.0, "#0C4A5C"],
+                    [0.5, "#2A6E78"], 
+                    [1.0, "#4A9378"]
+                ]
+            },
+            hovertemplate: '<b>%{label}</b><br>Pacientes: %{value}<br><extra></extra>',
+            texttemplate: '<b>%{label}</b><br>%{value} pacientes',
+            textfont: { size: 14 }
         }];
 
         var layout = {
-            title: "Distribución de la Población de Estudio por Nodo y Centro de Salud",
+            title: "Distribución de la Población de Estudio por Nodo y Centro de Salud<br><sup>El tamaño de cada área representa la cantidad de pacientes</sup>",
+            font: { size: 14 },
             width: 1200,
             height: 800
         };
