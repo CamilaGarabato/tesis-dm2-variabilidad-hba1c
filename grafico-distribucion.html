@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Distribución de Pacientes</title>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body>
+    <div id="myPlot" style="width:100%;max-width:1200px;height:800px;"></div>
+
+    <script>
+        var data = [{
+            type: "treemap",
+            labels: ["Hospital Papa Francisco", "Nodo I", "Nodo II", "Nodo III", "Nodo IV", 
+                    "C.S. Nº 06 Bº EL MANJON", "C.S. Nº 61 Bº SOLIDARIDAD", "C.S. Nº 17 Bº SAN REMO"],
+            parents: ["", "Hospital Papa Francisco", "Hospital Papa Francisco", "Hospital Papa Francisco", "Hospital Papa Francisco",
+                     "Nodo II", "Nodo II", "Nodo I"],
+            values: [35, 52, 38, 40, 34, 19, 17, 15],
+            marker: {
+                colorscale: [[0, "#0C4A5C"], [0.5, "#2A6E78"], [1, "#4A9378"]]
+            }
+        }];
+
+        var layout = {
+            title: "Distribución de Pacientes por Nodo y Centro de Salud",
+            font: {size: 14}
+        };
+
+        Plotly.newPlot("myPlot", data, layout);
+    </script>
+</body>
+</html>
