@@ -226,10 +226,9 @@ with col4:
 
 st.markdown("---")
 
-# Gráfico principal
+# Gráfico principal - ⭐ LÍNEA CORREGIDA
 fig = create_interactive_lipid_dashboard()
-st.plotly_chart(fig, use_container_width=True)
-
+st.plotly_chart(fig, width="stretch")
 
 # Notas al pie
 st.markdown("---")
