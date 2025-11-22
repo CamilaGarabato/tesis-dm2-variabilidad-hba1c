@@ -13,32 +13,32 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# ⭐ CONFIGURAR TEMA CLARO GLOBAL
-def set_light_theme():
-    st.markdown("""
-    <style>
+# TEMA CLARO AGGRESIVO
+st.markdown("""
+<style>
     .main {
-        background-color: #ffffff;
+        background-color: #FFFFFF;
     }
     .stApp {
-        background-color: #ffffff;
+        background-color: #FFFFFF;
     }
-    .css-1d391kg, .css-1y4p8pa {
-        background-color: #ffffff;
+    h1, h2, h3, h4, h5, h6, p, div, span, label {
+        color: #000000 !important;
     }
-    h1, h2, h3, h4, h5, h6, p, div, span {
-        color: #2d3748 !important;
+    .st-bb {
+        background-color: transparent;
     }
-    </style>
-    """, unsafe_allow_html=True)
-
-set_light_theme()
+    .css-1d391kg {
+        background-color: #FFFFFF;
+    }
+</style>
+""", unsafe_allow_html=True)
 
 # =============================================================================
 # FUNCIÓN PRINCIPAL DEL DASHBOARD
 # =============================================================================
 def create_interactive_lipid_dashboard():
-    # Datos actualizados
+    # Datos actualizados SIN columna de riesgo
     data = {
         'Variable': ['LDL', 'LDL', 'LDL', 'LDL', 
                      'HDL', 'HDL', 'HDL',
@@ -53,28 +53,36 @@ def create_interactive_lipid_dashboard():
         'Porcentaje': [31.9, 39.4, 17.0, 9.0,
                        39.4, 53.2, 3.2,
                        32.6, 27.5, 36.3, 2.6,
-                       72.5, 18.1, 8.8],
-        
-        'Riesgo': ['Bajo', 'Moderado', 'Alto', 'Muy Alto',
-                   'Alto', 'Moderado', 'Bajo',
-                   'Bajo', 'Moderado', 'Alto', 'Muy Alto',
-                   'Bajo', 'Moderado', 'Alto']
+                       72.5, 18.1, 8.8]
     }
 
     df = pd.DataFrame(data)
     
-    # ⭐ NUEVA PALETA DE COLORES OSCUROS PROFESIONAL
+    # PALETA DE COLORES SIMPLIFICADA - sin referencia a riesgo
     color_scale = {
-        'Bajo': '#2e7d32',      # Verde oscuro
-        'Moderado': '#1565c0',  # Azul oscuro (nuevo color)
-        'Alto': '#ef6c00',      # Naranja oscuro
-        'Muy Alto': '#c62828'   # Rojo oscuro
+        'Óptimo (<100 mg/dL)': '#2e7d32',           # Verde oscuro
+        'Casi óptimo (100-129 mg/dL)': '#1565c0',   # Azul
+        'Límite alto (130-159 mg/dL)': '#ff8f00',   # Naranja
+        'Alto+Muy alto (≥160 mg/dL)': '#c62828',    # Rojo
+        
+        'Bajo (<40 mg/dL)': '#c62828',              # Rojo
+        'Intermedio (40-59 mg/dL)': '#1565c0',      # Azul  
+        'Deseable/Alto (≥60 mg/dL)': '#2e7d32',     # Verde
+        
+        'Normal (<150 mg/dL)': '#2e7d32',           # Verde
+        'Levemente elevados (150-199)': '#1565c0',  # Azul
+        'Moderada (200-499 mg/dL)': '#ff8f00',      # Naranja
+        'Severa (≥500 mg/dL)': '#c62828',           # Rojo
+        
+        'Deseable (<200 mg/dL)': '#2e7d32',         # Verde
+        'Límite alto (200-239 mg/dL)': '#1565c0',   # Azul
+        'Alto (≥240 mg/dL)': '#c62828'              # Rojo
     }
     
     # Metas terapéuticas
     metas = {
         'LDL': 31.9,      # Óptimo (<100)
-        'HDL': 56.4,      # Intermedio + Deseable (53.2 + 3.2)
+        'HDL': 56.4,      # Intermedio + Deseable
         'Triglicéridos': 32.6,  # Normal
         'Colesterol Total': 72.5  # Deseable
     }
@@ -85,7 +93,7 @@ def create_interactive_lipid_dashboard():
     # Variables en orden
     variables = ['LDL', 'HDL', 'Triglicéridos', 'Colesterol Total']
     
-    # Añadir barras apiladas
+    # Añadir barras apiladas - MUCHO MÁS ANCHAS
     for i, variable in enumerate(variables):
         subset = df[df['Variable'] == variable]
         bottom = 0
@@ -97,15 +105,16 @@ def create_interactive_lipid_dashboard():
                 y=[row['Porcentaje']],
                 offsetgroup=i,
                 base=bottom,
-                marker_color=color_scale[row['Riesgo']],
+                marker_color=color_scale[row['Categoría']],
                 marker_line_color='white',
-                marker_line_width=1.5,
-                opacity=0.9,
+                marker_line_width=2,
+                opacity=0.95,
                 text=f"{row['Porcentaje']}%",
                 textposition='inside',
-                textfont=dict(color='white', size=10, weight='bold'),  # ⭐ Texto siempre blanco para mejor contraste
-                # ⭐ ELIMINADO: hovertemplate con "Riesgo"
-                hovertemplate=f"<b>{row['Categoría']}</b><br>Porcentaje: {row['Porcentaje']}%<extra></extra>"
+                textfont=dict(color='white', size=11, weight='bold'),
+                # TOOLTIP SIMPLE - sin mención de riesgo
+                hovertemplate=f"<b>{row['Categoría']}</b><br>Pacientes: {row['Porcentaje']}%<extra></extra>",
+                width=0.8  # BARRAS MUCHO MÁS ANCHAS
             ))
             bottom += row['Porcentaje']
 
@@ -115,8 +124,8 @@ def create_interactive_lipid_dashboard():
             type="line",
             x0=i-0.4, x1=i+0.4,
             y0=meta, y1=meta,
-            line=dict(color="#1a237e", width=3, dash="dash"),  # ⭐ Azul más oscuro
-            opacity=0.8
+            line=dict(color="#000000", width=3, dash="dash"),
+            opacity=0.9
         )
         
         fig.add_annotation(
@@ -124,57 +133,60 @@ def create_interactive_lipid_dashboard():
             text=f"Meta: {meta}%",
             showarrow=False,
             bgcolor="white",
-            bordercolor="#1a237e",
-            borderwidth=1,
-            font=dict(size=10, color="#1a237e", weight='bold')
+            bordercolor="#000000",
+            borderwidth=2,
+            font=dict(size=11, color="#000000", weight='bold')
         )
 
-    # ⭐ PERSONALIZACIÓN MEJORADA
+    # PERSONALIZACIÓN EXTREMA - MÁXIMO CONTRASTE
     fig.update_layout(
         title=dict(
-            text="<b>DISTRIBUCIÓN POR CATEGORÍAS DE RIESGO Y CUMPLIMIENTO DE METAS</b><br><sub>Porcentaje de pacientes en cada categoría clínica</sub>",
+            text="<b>DISTRIBUCIÓN POR CATEGORÍAS DE RIESGO</b><br><sub>Porcentaje de pacientes en cada categoría clínica</sub>",
             x=0.5,
-            font=dict(size=20, family="Arial", color="#1a237e")  # ⭐ Color oscuro
+            font=dict(size=22, family="Arial", color="#000000")
         ),
         xaxis=dict(
-            title="<b>Parámetro Lipídico</b>",
-            title_font=dict(size=14, color="#1a237e"),
-            tickfont=dict(size=12, weight='bold', color="#1a237e")
+            title="<b>PARÁMETRO LIPÍDICO</b>",
+            title_font=dict(size=16, color="#000000"),
+            tickfont=dict(size=14, weight='bold', color="#000000"),
+            gridcolor='#e0e0e0'
         ),
         yaxis=dict(
-            title="<b>Porcentaje de Pacientes (%)</b>",
-            title_font=dict(size=14, color="#1a237e"),
-            tickfont=dict(size=12, color="#1a237e"),
-            range=[0, 110]
+            title="<b>PORCENTAJE DE PACIENTES (%)</b>",
+            title_font=dict(size=16, color="#000000"),
+            tickfont=dict(size=12, color="#000000"),
+            range=[0, 110],
+            gridcolor='#e0e0e0'
         ),
         barmode='stack',
         showlegend=True,
-        # ⭐ BARRAS MÁS ANCHAS - reducido espaciado
-        bargap=0.3,
-        bargroupgap=0.1,
+        # BARRAS MUY ANCHAS - mínimo espacio entre grupos
+        bargap=0.15,
+        bargroupgap=0.05,
         legend=dict(
-            title="<b>Categorías Clínicas</b>",
-            title_font=dict(color="#1a237e"),
+            title="<b>CATEGORÍAS CLÍNICAS</b>",
+            title_font=dict(size=12, color="#000000"),
             orientation="v",
             yanchor="top",
             y=1,
             xanchor="left",
-            x=1.05,
+            x=1.02,
             bgcolor='white',
-            bordercolor='#1a237e',
-            borderwidth=1,
-            font=dict(color="#1a237e")
+            bordercolor='#000000',
+            borderwidth=2,
+            font=dict(size=10, color="#000000")
         ),
-        plot_bgcolor='white',  # ⭐ Fondo blanco
-        paper_bgcolor='white', # ⭐ Fondo blanco
-        font=dict(family="Arial", color="#1a237e"),  # ⭐ Color oscuro global
-        width=1000,
-        height=600,
+        plot_bgcolor='white',
+        paper_bgcolor='white',
+        font=dict(family="Arial", color="#000000"),
+        width=1100,
+        height=650,
         hoverlabel=dict(
             bgcolor="white",
+            bordercolor="#000000",
             font_size=12,
             font_family="Arial",
-            font_color="#1a237e"
+            font_color="#000000"
         )
     )
 
@@ -186,16 +198,16 @@ def create_interactive_lipid_dashboard():
 
 # Sidebar
 with st.sidebar:
-    st.title("🫀 Dashboard Lipídico")
+    st.title("🫀 DASHBOARD LIPÍDICO")
     st.markdown("---")
-    st.markdown("**Análisis de distribución** de pacientes según categorías de riesgo cardiovascular")
+    st.markdown("**Análisis de distribución** de pacientes según categorías clínicas")
     st.markdown("---")
     st.caption("Desarrollado para análisis clínico")
     st.caption("Datos actualizados 2024")
 
 # Contenido principal
-st.title("🎯 DASHBOARD LIPÍDICO - ANÁLISIS CLÍNICO")
-st.markdown("Distribución de pacientes según categorías de riesgo basada en valores promedios intraindividuales")
+st.title("🎯 ANÁLISIS DEL PERFIL LIPÍDICO")
+st.markdown("Distribución de pacientes según categorías basada en valores promedios intraindividuales")
 
 # KPIs en columnas
 col1, col2, col3, col4 = st.columns(4)
@@ -220,9 +232,8 @@ st.plotly_chart(fig, use_container_width=True)
 
 # Notas al pie
 st.markdown("---")
-st.markdown("**Notas:**")
+st.markdown("**NOTAS:**")
 st.markdown("- *Línea punteada:* Porcentaje que alcanzó la meta terapéutica")
-st.markdown("- **Colores:** Verde oscuro (Bajo riesgo) → Azul (Moderado) → Naranja (Alto) → Rojo oscuro (Muy alto)")
 st.markdown("- **Interactividad:** Haz hover sobre las barras para ver detalles")
 
 # Footer
