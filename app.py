@@ -230,6 +230,7 @@ st.markdown("---")
 fig = create_interactive_lipid_dashboard()
 st.plotly_chart(fig, use_container_width=True)
 
+
 # Notas al pie
 st.markdown("---")
 st.markdown("**NOTAS:**")
