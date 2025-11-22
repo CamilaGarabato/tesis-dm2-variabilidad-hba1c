@@ -206,7 +206,7 @@ with st.sidebar:
     st.caption("Datos actualizados 2024")
 
 # Contenido principal
-st.title("🎯 ANÁLISIS DEL PERFIL LIPÍDICO")
+st.title(" ANÁLISIS DEL PERFIL LIPÍDICO")
 st.markdown("Distribución de pacientes según categorías basada en valores promedios intraindividuales")
 
 # KPIs en columnas
