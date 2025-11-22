@@ -60,27 +60,27 @@ def create_interactive_lipid_dashboard():
     
     # PALETA INTELIGENTE - UN COLOR POR PARÁMETRO
     color_scale = {
-        # LDL - Escala de azules
-        'Óptimo (<100 mg/dL)': '#1e88e5',
-        'Casi óptimo (100-129 mg/dL)': '#64b5f6', 
-        'Límite alto (130-159 mg/dL)': '#90caf9',
-        'Alto+Muy alto (≥160 mg/dL)': '#bbdefb',
+        # LDL - Escala azul-púrpura sofisticada
+        'Óptimo (<100 mg/dL)': '#1a237e',        # Azul índigo oscuro
+        'Casi óptimo (100-129 mg/dL)': '#283593', # Azul pizarra
+        'Límite alto (130-159 mg/dL)': '#303f9f',  # Azul violáceo
+        'Alto+Muy alto (≥160 mg/dL)': '#3949ab',   # Azul real profundo
         
-        # HDL - Escala de verdes
-        'Bajo (<40 mg/dL)': '#e53935',
-        'Intermedio (40-59 mg/dL)': '#43a047',
-        'Deseable/Alto (≥60 mg/dL)': '#66bb6a',
+        # HDL - Escala de verdes oscuros intensos
+        'Bajo (<40 mg/dL)': '#1b5e20',        # Verde muy oscuro, casi negro-verde
+        'Intermedio (40-59 mg/dL)': '#2e7d32', # Verde bosque intenso
+        'Deseable/Alto (≥60 mg/dL)': '#388e3c',  # Verde esmeralda fuerte
         
-        # Triglicéridos - Escala de naranjas
-        'Normal (<150 mg/dL)': '#fb8c00',
-        'Levemente elevados (150-199)': '#ffb74d',
-        'Moderada (200-499 mg/dL)': '#ffcc80',
-        'Severa (≥500 mg/dL)': '#ffe0b2',
-        
-        # Colesterol Total - Escala de púrpuras
-        'Deseable (<200 mg/dL)': '#8e24aa',
-        'Límite alto (200-239 mg/dL)': '#ba68c8',
-        'Alto (≥240 mg/dL)': '#e1bee7'
+        # Triglicéridos - Escala de naranjas oscuros intensos
+        'Normal (<150 mg/dL)': '#e65100',        # Naranja oscuro intenso
+        'Levemente elevados (150-199)': '#ef6c00', # Naranja óxido
+        'Moderada (200-499 mg/dL)': '#f57c00',    # Naranja calabaza
+        'Severa (≥500 mg/dL)': '#ff9800',         # Naranja vibrante pero sobrio
+                
+        # Colesterol Total - Escala de púrpuras oscuros intensos
+        'Deseable (<200 mg/dL)': '#4a148c',        # Púrpura muy oscuro
+        'Límite alto (200-239 mg/dL)': '#6a1b9a',  # Púrpura uva intenso
+        'Alto (≥240 mg/dL)': '#8e24aa',            # Púrpura vibrante pero sobrio
     }
     
     # Metas terapéuticas
@@ -115,7 +115,7 @@ def create_interactive_lipid_dashboard():
                 opacity=0.95,
                 text=f"{row['Porcentaje']}%",
                 textposition='inside',
-                textfont=dict(color='black', size=10, weight='bold'),
+                textfont=dict(color='white', size=10, weight='bold'),
                 hovertemplate=f"<b>{row['Categoría']}</b><br>Pacientes: {row['Porcentaje']}%<extra></extra>",
                 width=0.8
             ))
@@ -146,7 +146,7 @@ def create_interactive_lipid_dashboard():
         title=dict(
             text="<b>DISTRIBUCIÓN POR CATEGORÍAS CLÍNICAS</b><br><sub>Porcentaje de pacientes en cada categoría</sub>",
             x=0.5,
-            font=dict(size=20, family="Arial", color="#ffffff")
+            font=dict(size=20, family="Consolas", color="#ffffff")
         ),
         xaxis=dict(
             title="<b>PARÁMETRO LIPÍDICO</b>",
@@ -162,7 +162,7 @@ def create_interactive_lipid_dashboard():
             gridcolor='rgba(255,255,255,0.1)'
         ),
         barmode='stack',
-        showlegend=False,  # ⭐ ELIMINAMOS LA LEYENDA CONFUSA
+        showlegend=False,  # ⭐ ELIMINADA LA LEYENDA CONFUSA
         bargap=0.15,
         bargroupgap=0.05,
         plot_bgcolor='white',  # ⭐ GRÁFICO CON FONDO BLANCO
@@ -174,7 +174,7 @@ def create_interactive_lipid_dashboard():
             bgcolor="white",
             bordercolor="#000000",
             font_size=12,
-            font_family="Arial",
+            font_family="Consolas",
             font_color="#000000"
         )
     )
@@ -185,7 +185,7 @@ def create_interactive_lipid_dashboard():
 # INTERFAZ DE STREAMLIT
 # =============================================================================
 
-# Sidebar ELEGANTE
+# Sidebar 
 with st.sidebar:
     st.title("🫀 DASHBOARD LIPÍDICO")
     st.markdown("---")
@@ -204,7 +204,7 @@ with st.sidebar:
     st.caption("Datos actualizados 2024")
 
 # Contenido principal
-st.title("🎯 ANÁLISIS DEL PERFIL LIPÍDICO")
+st.title("ANÁLISIS DEL PERFIL LIPÍDICO")
 st.markdown("Distribución de pacientes según categorías basada en valores promedios intraindividuales")
 
 # KPIs en columnas
@@ -232,9 +232,9 @@ st.plotly_chart(fig, width="stretch")
 st.markdown("---")
 st.markdown("**NOTAS:**")
 st.markdown("- *Línea punteada:* Porcentaje que alcanzó la meta terapéutica")
-st.markdown("- **Colores:** Cada parámetro tiene su propia escala de colores")
+st.markdown("- **Colores:** Cada parámetro tiene su propia escala de colores, cuya intensidad varia según densidad de datos")
 st.markdown("- **Interactividad:** Haz hover sobre las barras para ver detalles")
 
 # Footer
 st.markdown("---")
-st.caption("© 2024 - Dashboard desarrollado para investigación clínica")
+st.caption("© Estudio retrospectivo 2020 - 2025 - Dashboard desarrollado para el analisis de datos")
